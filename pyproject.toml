@@ -1,0 +1,31 @@
+[project]
+name = "simpleRAG"
+version = "0.1.0"
+description = "Lightweight RAG + memory layer project"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "chromadb>=1.5.5",
+    "langchain>=1.0.0,<2.0.0",
+    "langchain-community>=0.4.0,<1.0.0",
+    "langchain-text-splitters>=1.0.0,<2.0.0",
+    "langchain-huggingface>=0.1.0",
+    "python-dotenv>=1.0,<2.0",
+    "sentence-transformers>=5.3.0",
+    "langchain-experimental>=0.4.1",
+]
+
+[project.scripts]
+simple-rag = "simple_rag.cli:main"
+
+[build-system]
+requires = ["hatchling>=1.24.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/simple_rag"]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+]
