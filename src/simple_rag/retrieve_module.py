@@ -88,6 +88,8 @@ class RetrieveModule:
         for rank, doc in enumerate(vector_docs):
             doc_id = hash(doc.page_content)
             doc_objects[doc_id] = doc
+
+            # add score
             doc_scores[doc_id] = doc_scores.get(doc_id, 0.0) + (1.0 / (k + rank + 1))
 
         for rank, doc in enumerate(bm25_docs):

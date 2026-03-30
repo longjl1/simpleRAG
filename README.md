@@ -160,3 +160,5 @@ uv run python app.py ask "昨天我和助手聊过什么？" --top-k 5
 - `index_store/` 存储向量索引，不是原始文档目录。
 - 原始文档建议放在 `data/`（或通过 `.env` 设置 `RAG_DATA_PATH`）。
 - 如果你用 `seju-lite/workspace/memory/HISTORY.md` 测试，建议先复制截取样本到 `data/`，便于快速迭代。
+
+> Next: 0.2.0 基于Unstructured的文档解析
