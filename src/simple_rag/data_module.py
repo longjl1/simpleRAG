@@ -25,6 +25,8 @@ class ChunkingStats:
 class DataModule:
     """Prepare source docs for RAG with parent-child chunk mapping."""
 
+    SUPPORTED_EXTENSIONS = {".md", ".markdown", ".txt", ".rst", ".log"}
+
     def __init__(
         self,
         data_path: str | Path,
@@ -55,7 +57,11 @@ class DataModule:
         if self.data_path.is_file():
             files = [self.data_path]
         else:
-            files = sorted(self.data_path.rglob("*.md"))
+            files = sorted(
+                path
+                for path in self.data_path.rglob("*")
+                if path.is_file() and path.suffix.lower() in self.SUPPORTED_EXTENSIONS
+            )
 
         docs: list[Document] = []
         for file_path in files:

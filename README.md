@@ -5,7 +5,7 @@
 - 数据准备：支持普通 Markdown 结构分块 + `HISTORY.md` 事件分块
 - 检索：向量检索（FAISS）+ BM25 + RRF 融合重排
 - 生成：查询重写、查询路由、回答生成（支持流式接口）
-- 启动方式：`app.py`（`ingest / ask / chat`）
+- 启动方式：`simple-rag` CLI（`ingest / ask / chat / mcp-server`）
 
 ## Architecture
 
@@ -38,7 +38,13 @@ SimpleRAG
   -> answer()/answer_stream()
 
 app.py
-  -> CLI: ingest / ask / chat
+  -> legacy CLI entry
+
+simple_rag/cli.py
+  -> CLI: ingest / ask / chat / mcp-server
+
+simple_rag/mcp_server.py
+  -> MCP tools: rag_ingest / rag_retrieve / rag_answer
 ```
 
 ## Project Structure
@@ -114,7 +120,7 @@ LOG_LEVEL=INFO
 ### 1) 建索引
 
 ```bash
-uv run python app.py ingest
+uv run simple-rag ingest
 ```
 
 可选参数：
@@ -127,7 +133,7 @@ uv run python app.py ingest
 ### 2) 单次问答
 
 ```bash
-uv run python app.py ask "用户问题"
+uv run simple-rag ask "用户问题"
 ```
 
 常用参数：
@@ -139,7 +145,7 @@ uv run python app.py ask "用户问题"
 ### 3) 交互式多轮
 
 ```bash
-uv run python app.py chat
+uv run simple-rag chat
 ```
 
 - 退出词默认：`exit`, `quit`, `q`
@@ -149,10 +155,13 @@ uv run python app.py chat
 
 ```bash
 # 1) 用 sample 数据建索引
-uv run python app.py ingest --data-path ./data
+uv run simple-rag ingest --data-path ./data
 
 # 2) 提问
-uv run python app.py ask "昨天我和助手聊过什么？" --top-k 5
+uv run simple-rag ask "昨天我和助手聊过什么？" --top-k 5
+
+# 3) 启动 MCP Server
+uv run simple-rag --data-path ./data --index-path ./index_store mcp-server --transport stdio --name simple-rag
 ```
 
 ## Notes
